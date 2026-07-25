@@ -3,6 +3,7 @@ import gsap from "gsap";
 import { SplitText } from "gsap/SplitText";
 import { ScrambleTextPlugin } from "gsap/ScrambleTextPlugin";
 import { usePrefersReducedMotion } from "../../hooks/usePrefersReducedMotion";
+import { useHoverCapable } from "../../hooks/useHoverCapable";
 
 gsap.registerPlugin(SplitText, ScrambleTextPlugin);
 
@@ -47,7 +48,10 @@ export function ScrambledText({
   scrambleChars = ".:",
   className,
 }: ScrambledTextProps) {
-  const reduced = usePrefersReducedMotion();
+  /* Desktop-only, and inert under reduced motion: this whole effect is
+     driven by a hovering pointer, so on touch it would never fire. */
+  const hoverCapable = useHoverCapable();
+  const reduced = usePrefersReducedMotion() || !hoverCapable;
   const pRef = useRef<HTMLParagraphElement>(null);
   const chars = useRef<HTMLElement[]>([]);
   /** Character centres, paragraph-relative, flat [x0,y0,x1,y1,…]. */

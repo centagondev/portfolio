@@ -19,7 +19,7 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
     <Reveal delay={(index % 3) * 0.07} amount={0.15}>
       <article
         className="group overflow-hidden rounded-2xl border border-hairline transition-[border-color,box-shadow,transform] duration-300 ease-silk hover:-translate-y-1 hover:border-silk/40 hover:shadow-[0_30px_80px_-30px_rgba(53,113,255,0.3)]"
-        aria-label={`${project.title} — ${project.blurb}`}
+        aria-label={`${project.title}. ${project.blurb}`}
       >
         <div className="relative aspect-[16/10] overflow-hidden">
           <div

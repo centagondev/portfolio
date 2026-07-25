@@ -7,6 +7,7 @@ import {
   useState,
 } from "react";
 import { motion, useReducedMotion } from "framer-motion";
+import { useHoverCapable } from "../../hooks/useHoverCapable";
 
 /** The site's signature reveal ease. */
 const SIGNATURE_EASE = [0.2, 0.75, 0.2, 1] as const;
@@ -97,6 +98,7 @@ export function AnimatedText({
   magneticLetters = false,
 }: AnimatedTextProps) {
   const reduced = useReducedMotion();
+  const hoverCapable = useHoverCapable();
   const words = useMemo(() => parseWords(text), [text]);
 
   /* Flatten to letters with a stable global index for the wave. */
@@ -113,7 +115,8 @@ export function AnimatedText({
     return { wordLetters: mapped, letterCount: i, accentFlags: flags };
   }, [words]);
 
-  const magnetic = magneticLetters && !reduced;
+  // Desktop-only: a magnetic wave needs a real hovering pointer.
+  const magnetic = magneticLetters && !reduced && hoverCapable;
 
   const hostRef = useRef<HTMLElement | null>(null);
   const letterEls = useRef<(HTMLSpanElement | null)[]>([]);

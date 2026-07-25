@@ -1,5 +1,10 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  /*
+   * Wraps every `hover:` utility in `@media (hover: hover)`, so card
+   * and button hovers never fire (and stick) on touch devices.
+   */
+  future: { hoverOnlyWhenSupported: true },
   content: ["./index.html", "./src/**/*.{ts,tsx}"],
   theme: {
     extend: {

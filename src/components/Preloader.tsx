@@ -4,7 +4,11 @@ import { usePrefersReducedMotion } from "../hooks/usePrefersReducedMotion";
 import { SILK_EASE } from "./ui/Reveal";
 import lockupPng from "../assets/centagon-lockup.png";
 
-const TAGLINE_AT = 2.4;
+const TAGLINE = "Every Side Matters";
+/** When typing starts, ms after mount. */
+const TAGLINE_AT_MS = 2100;
+/** Ms per letter. 18 letters lands well before the exit. */
+const TYPE_STEP_MS = 58;
 const EXIT_BACKSTOP_MS = 5200;
 const REDUCED_HOLD_MS = 1100;
 
@@ -23,7 +27,31 @@ interface PreloaderProps {
 export function Preloader({ onDone }: PreloaderProps) {
   const reduced = usePrefersReducedMotion();
   const [leaving, setLeaving] = useState(false);
+  /** How many letters of the tagline have been typed so far. */
+  const [typed, setTyped] = useState(0);
   const videoRef = useRef<HTMLVideoElement>(null);
+
+  // Type the tagline out one letter at a time. 18 cheap state updates
+  // total, not per-frame work.
+  useEffect(() => {
+    if (reduced) return;
+    let timer = 0;
+    const start = window.setTimeout(() => {
+      timer = window.setInterval(() => {
+        setTyped((n) => {
+          if (n >= TAGLINE.length) {
+            window.clearInterval(timer);
+            return n;
+          }
+          return n + 1;
+        });
+      }, TYPE_STEP_MS);
+    }, TAGLINE_AT_MS);
+    return () => {
+      window.clearTimeout(start);
+      window.clearInterval(timer);
+    };
+  }, [reduced]);
 
   // Backstop: leave even if the video stalls or never fires "ended".
   useEffect(() => {
@@ -57,7 +85,7 @@ export function Preloader({ onDone }: PreloaderProps) {
         aria-label="Loading Centagon"
       >
         <img src={lockupPng} alt="Centagon" className="h-10 w-auto" />
-        <p className="font-body text-[11px] font-500 uppercase tracking-[0.34em] text-silk">
+        <p className="font-body text-sm font-500 uppercase tracking-[0.3em] text-silk sm:text-base">
           Every Side Matters
         </p>
       </div>
@@ -88,14 +116,23 @@ export function Preloader({ onDone }: PreloaderProps) {
             <source src="/brand/centagon-logo-intro.mp4" type="video/mp4" />
           </video>
 
-          <motion.p
-            className="mt-2 font-body text-[11px] font-500 uppercase tracking-[0.34em] text-silk"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.45, delay: TAGLINE_AT, ease: [...SILK_EASE] }}
+          {/*
+            Typed out letter by letter with a blinking caret. Clearly
+            readable rather than caption-sized, with space above it to
+            breathe under the logo animation.
+          */}
+          <p
+            className="mt-6 flex items-center font-body text-sm font-500 uppercase tracking-[0.3em] text-silk sm:text-base"
+            aria-label={TAGLINE}
           >
-            Every Side Matters
-          </motion.p>
+            <span aria-hidden="true">{TAGLINE.slice(0, typed)}</span>
+            <span
+              aria-hidden="true"
+              className={`ml-1 inline-block h-[1.05em] w-[2px] bg-silk/90 ${
+                typed > 0 ? "animate-caret" : "opacity-0"
+              }`}
+            />
+          </p>
         </motion.div>
       )}
     </AnimatePresence>

@@ -32,18 +32,17 @@ export function Footer() {
           </nav>
 
           <a
-            href="mailto:hello@centagon.com"
+            href="mailto:centagontech@gmail.com"
             className="text-sm text-silk transition-colors duration-300 hover:text-white"
           >
-            hello@centagon.com
+            centagontech@gmail.com
           </a>
         </div>
 
         <div className="flex flex-col items-start justify-between gap-3 border-t border-hairline pt-6 sm:flex-row sm:items-center">
           <p className="text-xs text-muted/60">
-            © {new Date().getFullYear()} Centagon — Every Side Matters.
+            © {new Date().getFullYear()} Centagon. Every Side Matters.
           </p>
-          <p className="text-xs text-muted/40">Crafted with care, on every side.</p>
         </div>
       </div>
     </footer>

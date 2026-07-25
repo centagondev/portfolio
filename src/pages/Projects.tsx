@@ -55,7 +55,7 @@ export function Projects() {
           <SectionHeading
             eyebrow="Projects"
             title="Work *we've done.*"
-            lead="A few things we've shipped. Every one built like it carries our name — because it does. Demo entries; real cases coming soon."
+            lead="A few things we've shipped. Every one carries our name, so every one gets the same care. These are placeholders for now, real cases are on the way."
           />
 
           <div className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">

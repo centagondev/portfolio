@@ -124,7 +124,7 @@ const VALUES = [
   },
   {
     title: "Impact over quantity",
-    body: "We'd rather build a few things that genuinely matter than many that don't — depth and outcomes over output.",
+    body: "We'd rather build a few things that genuinely matter than many that don't. Depth and outcomes over output.",
   },
 ];
 
@@ -184,7 +184,7 @@ export function Home() {
             </motion.div>
 
             <motion.div className="mt-9" {...fadeUp(0.65)}>
-              <Button href="mailto:hello@centagon.com">Contact us</Button>
+              <Button href="mailto:centagontech@gmail.com">Contact us</Button>
             </motion.div>
           </div>
 
@@ -225,8 +225,8 @@ export function Home() {
             />
             <Reveal delay={0.15}>
               <p className="mt-6 max-w-sm text-base leading-relaxed text-muted">
-                The name is the method: many sides, each one held to the same
-                standard. These five keep us honest.
+                A hundred sides, all held to the same standard. These five
+                shape how we work on every project.
               </p>
             </Reveal>
           </div>

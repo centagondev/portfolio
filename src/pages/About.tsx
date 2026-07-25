@@ -1,9 +1,20 @@
 import { PageTransition } from "../components/PageTransition";
-import { type Member } from "../components/MemberCard";
-import { TeamGallery } from "../components/TeamGallery";
 import { AnimatedText } from "../components/ui/AnimatedText";
 import { Reveal } from "../components/ui/Reveal";
 import { SectionHeading } from "../components/ui/SectionHeading";
+
+/* ===========================================================
+ * TEAM GALLERY — TEMPORARILY DISABLED (no real member photos yet)
+ *
+ * To re-enable, uncomment:
+ *   1. these two imports,
+ *   2. the MEMBERS array below,
+ *   3. the <section> at the bottom of this file.
+ * TeamGallery.tsx and MemberCard.tsx are untouched and still work.
+ *
+ * import { type Member } from "../components/MemberCard";
+ * import { TeamGallery } from "../components/TeamGallery";
+ * =========================================================== */
 
 const WHY = [
   {
@@ -12,11 +23,11 @@ const WHY = [
   },
   {
     title: "Every side matters",
-    body: "Equal care for code, design, performance, and security — the detail you don't see is still built well.",
+    body: "Equal care for code, design, performance, and security. The parts you never see are built just as well.",
   },
   {
     title: "Built to scale and maintain",
-    body: "Typed, tested, documented systems your own team can grow — not black boxes you rent forever.",
+    body: "Typed, tested, documented systems your own team can grow. Not a black box you rent from us forever.",
   },
   {
     title: "Transparent partnership",
@@ -24,21 +35,23 @@ const WHY = [
   },
 ];
 
-/* Demo members — swap for the real team. */
-const MEMBERS: Member[] = [
-  { name: "Alex Rivera", role: "Frontend Developer", stack: ["React", "TypeScript", "Tailwind"], img: 11 },
-  { name: "Maya Chen", role: "Backend Developer", stack: ["Node.js", "PostgreSQL", "Redis"], img: 47 },
-  { name: "Jonas Weber", role: "Backend Developer", stack: ["Go", "gRPC", "Kubernetes"], img: 12 },
-  { name: "Sofia Marino", role: "Frontend Developer", stack: ["React", "Next.js", "Framer Motion"], img: 45 },
-  { name: "Daniel Osei", role: "Backend Developer", stack: ["Python", "FastAPI", "PostgreSQL"], img: 13 },
-  { name: "Lena Kovač", role: "Frontend Developer", stack: ["TypeScript", "Vue", "Vite"], img: 44 },
-  { name: "Ravi Patel", role: "Backend Developer", stack: ["Node.js", "GraphQL", "MongoDB"], img: 14 },
-  { name: "Clara Duval", role: "Frontend Developer", stack: ["React", "Three.js", "GSAP"], img: 49 },
-  { name: "Tomás Silva", role: "Backend Developer", stack: ["Rust", "Kafka", "ClickHouse"], img: 15 },
-  { name: "Nina Petrova", role: "Frontend Developer", stack: ["React", "TypeScript", "Storybook"], img: 41 },
-  { name: "Omar Haddad", role: "Backend Developer", stack: ["Python", "Django", "AWS"], img: 17 },
-  { name: "Emma Lindqvist", role: "Frontend Developer", stack: ["Svelte", "TypeScript", "CSS"], img: 43 },
-];
+/* Demo members, kept ready for when the real photos land.
+ *
+ * const MEMBERS: Member[] = [
+ *   { name: "Alex Rivera", role: "Frontend Developer", stack: ["React", "TypeScript", "Tailwind"], img: 11 },
+ *   { name: "Maya Chen", role: "Backend Developer", stack: ["Node.js", "PostgreSQL", "Redis"], img: 47 },
+ *   { name: "Jonas Weber", role: "Backend Developer", stack: ["Go", "gRPC", "Kubernetes"], img: 12 },
+ *   { name: "Sofia Marino", role: "Frontend Developer", stack: ["React", "Next.js", "Framer Motion"], img: 45 },
+ *   { name: "Daniel Osei", role: "Backend Developer", stack: ["Python", "FastAPI", "PostgreSQL"], img: 13 },
+ *   { name: "Lena Kovač", role: "Frontend Developer", stack: ["TypeScript", "Vue", "Vite"], img: 44 },
+ *   { name: "Ravi Patel", role: "Backend Developer", stack: ["Node.js", "GraphQL", "MongoDB"], img: 14 },
+ *   { name: "Clara Duval", role: "Frontend Developer", stack: ["React", "Three.js", "GSAP"], img: 49 },
+ *   { name: "Tomás Silva", role: "Backend Developer", stack: ["Rust", "Kafka", "ClickHouse"], img: 15 },
+ *   { name: "Nina Petrova", role: "Frontend Developer", stack: ["React", "TypeScript", "Storybook"], img: 41 },
+ *   { name: "Omar Haddad", role: "Backend Developer", stack: ["Python", "Django", "AWS"], img: 17 },
+ *   { name: "Emma Lindqvist", role: "Frontend Developer", stack: ["Svelte", "TypeScript", "CSS"], img: 43 },
+ * ];
+ */
 
 export function About() {
   return (
@@ -75,17 +88,17 @@ export function About() {
               <p>
                 Centagon builds digital products, scalable web applications,
                 AI-powered solutions, and enterprise systems. We take on the
-                whole journey — from the first sketch of an idea to software
-                running in production and the years of evolution after.
+                whole job, from the first sketch of an idea to software running
+                in production, and all the changes that come after.
               </p>
             </Reveal>
             <Reveal delay={0.08}>
               <p>
-                Our name is our method. A centagon has a hundred sides, and
-                from a distance it looks like a circle — but every side is
-                still its own straight, deliberate line. That's how we treat
-                software: engineering excellence and thoughtful design applied
-                to every facet, including the ones nobody sees.
+                Our name is our method. A centagon has a hundred sides. From a
+                distance it looks like a circle, but every side is still its
+                own straight, deliberate line. That's how we treat software.
+                Engineering care and thoughtful design go into every part of
+                it, including the parts nobody sees.
               </p>
             </Reveal>
           </div>
@@ -129,19 +142,25 @@ export function About() {
         </div>
       </section>
 
-      {/* The team — a horizontal journey through the twelve. */}
-      <section className="relative py-12 sm:py-16">
-        <TeamGallery
-          members={MEMBERS}
-          header={
-            <SectionHeading
-              eyebrow="Team"
-              title="The people *behind Centagon.*"
-              lead="Twelve engineers, one standard. Demo profiles; the real faces are on their way."
-            />
-          }
-        />
-      </section>
+      {/* ==========================================================
+        * THE TEAM — horizontal-scroll gallery. DISABLED for now until
+        * we have real member photos. Uncomment this block (plus the
+        * imports and MEMBERS array at the top of this file) to restore
+        * it exactly as it was.
+        *
+        * <section className="relative py-12 sm:py-16">
+        *   <TeamGallery
+        *     members={MEMBERS}
+        *     header={
+        *       <SectionHeading
+        *         eyebrow="Team"
+        *         title="The people *behind Centagon.*"
+        *         lead="Twelve engineers, one standard. Demo profiles for now, real faces are on the way."
+        *       />
+        *     }
+        *   />
+        * </section>
+        * ========================================================== */}
       </div>
     </PageTransition>
   );
