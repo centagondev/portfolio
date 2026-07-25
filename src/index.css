@@ -1,0 +1,132 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --deep: #05070f;
+  --navy-1: #0a1730;
+  --navy-2: #14315f;
+  --navy-3: #1e4079;
+  --mid-blue: #5c83cc;
+  --silk: #a9c8ef;
+  --sky: #cfe0ff;
+  --electric: #3571ff;
+  --light: #94b4ff;
+  --white: #ffffff;
+  --muted: #9fb0cc;
+}
+
+html {
+  scroll-behavior: auto;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+body {
+  @apply bg-deep font-body text-white antialiased;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: rgba(53, 113, 255, 0.4);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--electric);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Signature "blue silk" backdrop derived from the logo artwork. */
+.bg-silk {
+  background:
+    radial-gradient(80% 100% at 100% 92%, #a9c8ef 0%, rgba(169, 200, 239, 0) 42%),
+    radial-gradient(70% 82% at 82% 16%, #5c83cc 0%, rgba(92, 131, 204, 0) 50%),
+    radial-gradient(55% 55% at 70% 40%, #03050b 0%, rgba(3, 5, 11, 0) 58%),
+    linear-gradient(112deg, #05070f 0%, #0a1730 40%, #14315f 72%, #1e4079 100%);
+}
+
+/* Softer variant for interior sections so the page stays readable. */
+.bg-silk-faint {
+  background:
+    radial-gradient(70% 90% at 100% 100%, rgba(92, 131, 204, 0.22) 0%, rgba(92, 131, 204, 0) 55%),
+    radial-gradient(60% 70% at 0% 0%, rgba(20, 49, 95, 0.5) 0%, rgba(20, 49, 95, 0) 60%),
+    linear-gradient(160deg, #05070f 0%, #0a1730 100%);
+}
+
+.text-glow {
+  text-shadow: 0 0 32px rgba(148, 180, 255, 0.35);
+}
+
+/* Film grain over the gradients — one fixed overlay, painted once. */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/*
+ * Hero magnetic letters. The rAF loop writes ONLY transform, so the
+ * "brightness" is a discrete class swap with a CSS transition — it
+ * never costs a repaint on the animation's hot path.
+ */
+.magnetic-letter {
+  transition: color 0.16s ease-out;
+}
+.magnetic-letter.is-lit {
+  color: #cfe0ff;
+}
+
+/* Dotted texture derived from the logo cells. */
+.dots {
+  background-image: radial-gradient(rgba(169, 200, 239, 0.13) 1.5px, transparent 1.5px);
+  background-size: 26px 26px;
+}
+
+/* Extremely subtle — visible on close look, never a harsh line. */
+.border-hairline {
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+/* Custom scrollbar tuned to the theme. */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #05070f;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e4079;
+  border-radius: 8px;
+  border: 2px solid #05070f;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3571ff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
