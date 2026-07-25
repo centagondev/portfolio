@@ -1,0 +1,4 @@
+# SPA fallback for Netlify and other static hosts that read _redirects.
+# Vercel uses vercel.json instead. Without this, reloading /about or
+# /projects returns a 404 because no such file exists on disk.
+/*  /index.html  200

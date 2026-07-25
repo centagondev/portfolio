@@ -18,6 +18,13 @@
 
 html {
   scroll-behavior: auto;
+  /*
+   * Do NOT set overflow-x here. It forces overflow-y to compute as
+   * `auto`, which turns <html> into a scroll container and silently
+   * breaks `position: sticky` (it killed the pinned values column).
+   * Sideways overflow is clipped at its source instead, on the section
+   * that actually contains the offending element.
+   */
 }
 
 html.lenis,

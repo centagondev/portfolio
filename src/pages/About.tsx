@@ -58,7 +58,9 @@ export function About() {
     <PageTransition>
       {/* The whole About page sits on the DARK navy surface: calm deep
           navy with only a faint dotted-grid texture and a blue hint. */}
-      <div className="relative bg-gradient-to-b from-[#05070f] via-[#070b16] to-[#05070f]">
+      {/* overflow-hidden clips the decorative bloom below, which sits at
+          -right-40 and would otherwise push the page sideways on phones. */}
+      <div className="relative overflow-hidden bg-gradient-to-b from-[#05070f] via-[#070b16] to-[#05070f]">
         <div
           aria-hidden="true"
           className="dots pointer-events-none absolute inset-0 opacity-25"
