@@ -3,6 +3,7 @@ import { AnimatedText } from "../components/ui/AnimatedText";
 import { Button } from "../components/ui/Button";
 import { CodeWindow, type Token } from "../components/ui/CodeWindow";
 import { Reveal, SILK_EASE } from "../components/ui/Reveal";
+import { ScrambledText } from "../components/ui/ScrambledText";
 import { PageTransition } from "../components/PageTransition";
 
 /* The hero snippet — the team and its values, as code. Tokenized by
@@ -166,14 +167,21 @@ export function Home() {
               className="font-display text-[clamp(2.6rem,6vw,4.4rem)] font-700 leading-[1.05] tracking-display text-white"
             />
 
-            <motion.p
-              className="mt-6 max-w-md text-base leading-relaxed text-muted sm:text-lg"
-              {...fadeUp(0.5)}
-            >
-              Centagon is a software engineering studio building digital
-              products, scalable web applications, AI-powered solutions, and
-              enterprise software.
-            </motion.p>
+            {/* Same type, size, colour and position as before — the
+                ScrambledText wrapper only adds the hover behaviour. */}
+            <motion.div className="mt-6" {...fadeUp(0.5)}>
+              <ScrambledText
+                radius={30}
+                duration={1.2}
+                speed={0.5}
+                scrambleChars=".:"
+                className="max-w-md text-base leading-relaxed text-muted sm:text-lg"
+              >
+                Centagon is a software engineering studio building digital
+                products, scalable web applications, AI-powered solutions, and
+                enterprise software.
+              </ScrambledText>
+            </motion.div>
 
             <motion.div className="mt-9" {...fadeUp(0.65)}>
               <Button href="mailto:hello@centagon.com">Contact us</Button>

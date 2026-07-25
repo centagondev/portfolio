@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(sed -i 's|const SEL = .*|const SEL = `document.querySelector\\(\\\\x27p[aria-label^=\"Centagon is a software\"]\\\\x27\\)`;|' scramble2.mjs)",
+      "Bash(node scramble2.mjs)"
+    ]
+  }
+}
