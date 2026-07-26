@@ -77,7 +77,10 @@ export function About() {
         />
 
       {/* Who we are */}
-      <section className="relative pb-24 pt-36 sm:pb-28">
+      {/* Section rhythm: pt-36 clears the navbar, then every gap between
+          sections is pb-14/pt-14 (sm:16) so the spacing stays even
+          instead of leaving a ~220px void here. */}
+      <section className="relative pb-14 pt-36 sm:pb-16">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
           <SectionHeading
             eyebrow="About"
@@ -108,7 +111,7 @@ export function About() {
       </section>
 
       {/* Why Centagon — clean typography, no cards. */}
-      <section className="relative py-24 sm:py-28">
+      <section className="relative pb-24 pt-14 sm:pb-28 sm:pt-16">
         <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
           <Reveal>
             <p className="mb-5 font-body text-xs font-600 uppercase tracking-[0.28em] text-lightblue">
