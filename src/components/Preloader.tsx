@@ -66,15 +66,48 @@ export function Preloader({ onDone }: PreloaderProps) {
   }, [reduced]);
 
   /*
-   * iOS can reject autoplay silently, without firing an `error` event
-   * (low power mode, for instance). Ask explicitly and fall back to the
-   * static logo if the promise rejects, so nobody sees an empty screen.
+   * Getting the video to actually play on iOS.
+   *
+   * Two things bit us here. First, React does not reliably reflect the
+   * `muted` attribute onto the element, and iOS refuses inline autoplay
+   * unless the element is genuinely muted at play() time, so we set the
+   * properties imperatively. Second, iOS often rejects the play()
+   * promise with a recoverable AbortError (a pending load, or React
+   * StrictMode remounting us). Treating that rejection as terminal is
+   * what made an otherwise playable video fall back to the static logo,
+   * so we retry instead and only give up on hard evidence: no frame has
+   * been produced by the time the grace period is up.
    */
   useEffect(() => {
     if (reduced) return;
     const el = videoRef.current;
     if (!el) return;
-    el.play().catch(() => setVideoFailed(true));
+
+    el.muted = true;
+    el.playsInline = true;
+    el.defaultMuted = true;
+
+    let cancelled = false;
+    const attempt = (retriesLeft: number) => {
+      if (cancelled || !videoRef.current) return;
+      videoRef.current.play().catch(() => {
+        if (retriesLeft > 0) window.setTimeout(() => attempt(retriesLeft - 1), 220);
+      });
+    };
+    attempt(3);
+
+    // Hard evidence check: has a real frame reached the screen?
+    const grace = window.setTimeout(() => {
+      const v = videoRef.current;
+      if (!cancelled && v && v.readyState < 2 && v.currentTime === 0) {
+        setVideoFailed(true);
+      }
+    }, 1800);
+
+    return () => {
+      cancelled = true;
+      window.clearTimeout(grace);
+    };
   }, [reduced]);
 
   // Backstop: leave even if the video stalls or never fires "ended".
@@ -149,6 +182,10 @@ export function Preloader({ onDone }: PreloaderProps) {
               disablePictureInPicture
               {...{ "webkit-playsinline": "true" }}
               onEnded={() => setLeaving(true)}
+              /* A frame reached the screen, so playback is genuinely
+                 working. Cancel any pending fallback. */
+              onPlaying={() => setVideoFailed(false)}
+              onLoadedData={() => setVideoFailed(false)}
               onError={() => setVideoFailed(true)}
               className="h-64 w-auto sm:h-80"
               /*
