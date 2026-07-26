@@ -17,18 +17,26 @@ interface PreloaderProps {
 }
 
 /**
- * Black intro built around the OFFICIAL Centagon logo animation
- * (provided .mov, transcoded to an alpha-keyed VP9 WebM so the cells
- * float on pure black; H.264 fallback for browsers without VP9
- * alpha). "Every Side Matters" settles beneath while it plays, then
- * the screen scales open and dissolves into Home. First load only,
- * skippable; reduced-motion shows the static logo briefly instead.
+ * Black intro built around the OFFICIAL Centagon logo animation.
+ *
+ * iOS/Safari note: Safari cannot decode alpha-channel VP9 WebM, so the
+ * earlier build fell through to an H.264 file that still carried the
+ * animation's original light-grey backdrop. That is what showed up as a
+ * "white screen" on iPhone. The video is now a single H.264 MP4
+ * composited onto solid black, which every browser can play and which
+ * looks identical over this black screen, so no alpha is needed at all.
+ *
+ * "Every Side Matters" types out beneath it, then the screen scales
+ * open and dissolves into Home. First load only, skippable;
+ * reduced-motion shows the static logo instead.
  */
 export function Preloader({ onDone }: PreloaderProps) {
   const reduced = usePrefersReducedMotion();
   const [leaving, setLeaving] = useState(false);
   /** How many letters of the tagline have been typed so far. */
   const [typed, setTyped] = useState(0);
+  /** Video refused to play: show the static logo, never a blank screen. */
+  const [videoFailed, setVideoFailed] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   // Type the tagline out one letter at a time. 18 cheap state updates
@@ -51,6 +59,18 @@ export function Preloader({ onDone }: PreloaderProps) {
       window.clearTimeout(start);
       window.clearInterval(timer);
     };
+  }, [reduced]);
+
+  /*
+   * iOS can reject autoplay silently, without firing an `error` event
+   * (low power mode, for instance). Ask explicitly and fall back to the
+   * static logo if the promise rejects, so nobody sees an empty screen.
+   */
+  useEffect(() => {
+    if (reduced) return;
+    const el = videoRef.current;
+    if (!el) return;
+    el.play().catch(() => setVideoFailed(true));
   }, [reduced]);
 
   // Backstop: leave even if the video stalls or never fires "ended".
@@ -101,20 +121,37 @@ export function Preloader({ onDone }: PreloaderProps) {
           transition={{ duration: 0.5, ease: [...SILK_EASE] }}
           aria-label="Loading Centagon"
         >
-          {/* The official logo animation, keyed onto pure black. */}
-          <video
-            ref={videoRef}
-            autoPlay
-            muted
-            playsInline
-            onEnded={() => setLeaving(true)}
-            onError={() => setLeaving(true)}
-            className="h-64 w-auto sm:h-80"
-            aria-hidden="true"
-          >
-            <source src="/brand/centagon-logo-animation.webm" type="video/webm" />
-            <source src="/brand/centagon-logo-intro.mp4" type="video/mp4" />
-          </video>
+          {videoFailed ? (
+            /* Never a blank screen: the official logo, centred on black. */
+            <img
+              src={lockupPng}
+              alt="Centagon"
+              className="h-10 w-auto sm:h-12"
+            />
+          ) : (
+            /*
+             * One black-background H.264 source, playable everywhere.
+             * `muted` + `playsInline` (and the legacy webkit variant) are
+             * what allow iOS to autoplay inline rather than going
+             * fullscreen or refusing outright.
+             */
+            <video
+              ref={videoRef}
+              autoPlay
+              muted
+              loop={false}
+              playsInline
+              preload="auto"
+              disablePictureInPicture
+              {...{ "webkit-playsinline": "true" }}
+              onEnded={() => setLeaving(true)}
+              onError={() => setVideoFailed(true)}
+              className="h-64 w-auto bg-black sm:h-80"
+              aria-hidden="true"
+            >
+              <source src="/brand/centagon-logo-intro.mp4" type="video/mp4" />
+            </video>
+          )}
 
           {/*
             Typed out letter by letter with a blinking caret. Clearly
