@@ -12,6 +12,10 @@ const TYPE_STEP_MS = 58;
 const EXIT_BACKSTOP_MS = 5200;
 const REDUCED_HOLD_MS = 1100;
 
+/** 1x1 black GIF, used as the video poster so nothing white can flash. */
+const BLACK_PIXEL =
+  "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
+
 interface PreloaderProps {
   onDone: () => void;
 }
@@ -146,7 +150,15 @@ export function Preloader({ onDone }: PreloaderProps) {
               {...{ "webkit-playsinline": "true" }}
               onEnded={() => setLeaving(true)}
               onError={() => setVideoFailed(true)}
-              className="h-64 w-auto bg-black sm:h-80"
+              className="h-64 w-auto sm:h-80"
+              /*
+               * Black poster + inline black background: belt and braces so
+               * that even while the file buffers, or if a browser paints a
+               * default backdrop behind the frame, what shows is black
+               * rather than the white iOS was rendering.
+               */
+              poster={BLACK_PIXEL}
+              style={{ backgroundColor: "#000" }}
               aria-hidden="true"
             >
               <source src="/brand/centagon-logo-intro.mp4" type="video/mp4" />
