@@ -34,14 +34,20 @@ export function Projects() {
           <article className="mt-16 grid grid-cols-1 items-center gap-12 lg:mt-20 lg:grid-cols-[1.15fr_1fr] lg:gap-16">
             <Reveal y={28}>
               <figure className="overflow-hidden rounded-2xl bg-white/[0.04] p-2 shadow-[0_40px_100px_-30px_rgba(3,5,11,0.85)] backdrop-blur-sm">
-                <img
-                  src={ekatonPreview}
-                  alt="The Ekaton home screen, showing an anonymous chat entry point for students."
-                  width={1256}
-                  height={884}
-                  loading="lazy"
-                  className="w-full rounded-xl"
-                />
+                <a
+                  href="https://ekaton.vercel.app/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <img
+                    src={ekatonPreview}
+                    alt="The Ekaton home screen, showing an anonymous chat entry point for students."
+                    width={1256}
+                    height={884}
+                    loading="lazy"
+                    className="w-full rounded-xl"
+                  />
+                </a>
               </figure>
             </Reveal>
 
