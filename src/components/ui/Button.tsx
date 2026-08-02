@@ -15,6 +15,9 @@ interface ButtonProps {
   href?: string;
   /** Internal route — renders a client-side <Link>. */
   to?: string;
+  /** Anchor target, for external links that should open in a new tab. */
+  target?: string;
+  rel?: string;
   variant?: "primary" | "ghost";
   className?: string;
   onClick?: () => void;
@@ -29,6 +32,8 @@ export function Button({
   children,
   href,
   to,
+  target,
+  rel,
   variant = "primary",
   className = "",
   onClick,
@@ -103,6 +108,8 @@ export function Button({
       <motion.a
         ref={ref as React.Ref<HTMLAnchorElement>}
         href={href}
+        target={target}
+        rel={rel}
         onClick={onClick}
         className={`${base} ${styles} ${className}`}
         {...motionProps}

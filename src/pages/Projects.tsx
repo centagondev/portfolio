@@ -1,5 +1,6 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { PageTransition } from "../components/PageTransition";
+import { Button } from "../components/ui/Button";
 import { Reveal, SILK_EASE } from "../components/ui/Reveal";
 import { SectionHeading } from "../components/ui/SectionHeading";
 /*
@@ -8,9 +9,11 @@ import { SectionHeading } from "../components/ui/SectionHeading";
  */
 import ekatonPreview from "../assets/ekaton-preview.png";
 
-const PROGRESS = 80;
+const PROGRESS = 100;
 
-const TAGS = ["Anonymous chat", "Web app", "In progress"];
+const EKATON_URL = "https://ekaton.in";
+
+const TAGS = ["Anonymous chat", "Real-time", "Web app", "Live"];
 
 export function Projects() {
   const reduced = useReducedMotion();
@@ -26,8 +29,8 @@ export function Projects() {
         <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
           <SectionHeading
             eyebrow="Projects"
-            title="What we're *building.*"
-            lead="One project so far, still in progress. More is on the way."
+            title="What we've *shipped.*"
+            lead="One project so far, live in production. More is on the way."
           />
 
           {/* ---------- Featured: Ekaton ---------- */}
@@ -54,7 +57,7 @@ export function Projects() {
             <div>
               <Reveal delay={0.06}>
                 <p className="font-body text-xs font-600 uppercase tracking-[0.28em] text-lightblue">
-                  Our first project
+                  Our first project — now live
                 </p>
               </Reveal>
 
@@ -66,10 +69,11 @@ export function Projects() {
 
               <Reveal delay={0.14}>
                 <p className="mt-5 max-w-md text-base leading-relaxed text-muted sm:text-lg">
-                  An anonymous communication platform. Real conversations that
-                  connect students, with no profiles and no pressure. We're
-                  building it mostly to learn how GitHub collaboration works as
-                  a team.
+                  A finished anonymous campus communication platform. Students
+                  join exclusive discussions, events, private anonymous chats
+                  and community threads through a secure, real-time experience,
+                  on a production-ready architecture built for performance,
+                  privacy and scale.
                 </p>
               </Reveal>
 
@@ -78,7 +82,7 @@ export function Projects() {
                 <div className="mt-8 max-w-sm">
                   <div className="flex items-baseline justify-between">
                     <span className="font-body text-xs font-600 uppercase tracking-[0.2em] text-silk">
-                      In progress
+                      Completed
                     </span>
                     <span className="font-display text-sm font-600 text-sky">
                       {PROGRESS}%
@@ -128,6 +132,18 @@ export function Projects() {
                     </li>
                   ))}
                 </ul>
+              </Reveal>
+
+              <Reveal delay={0.26}>
+                <div className="mt-8">
+                  <Button
+                    href={EKATON_URL}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                  >
+                    Visit Ekaton
+                  </Button>
+                </div>
               </Reveal>
             </div>
           </article>
